@@ -328,44 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // === Contact Form Handling ===
-    const contactForm = document.getElementById('contactForm');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(contactForm);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const service = formData.get('service');
-            const message = formData.get('message');
-
-            if (!name || !email || !service || !message) {
-                showNotification('Mohon lengkapi semua field yang diperlukan.', 'error');
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showNotification('Format email tidak valid.', 'error');
-                return;
-            }
-
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<span>Mengirim...</span>';
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                showNotification('Pesan berhasil dikirim! Kami akan segera menghubungi Anda.', 'success');
-                contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
-        });
-    }
-
     // === Notification System ===
     function showNotification(message, type = 'success') {
         const existing = document.querySelector('.notification');
