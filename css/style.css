@@ -3,7 +3,7 @@
    ========================================== */
 
 :root {
-    --primary: #1E40AF;
+    --primary: #38BDF8;
     --accent: #F97316;
     --accent-hover: #EA580C;
     --text: #1E293B;
@@ -244,7 +244,7 @@ ul { list-style: none; }
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(30,64,175,0.9) 0%, rgba(30,64,175,0.7) 100%);
+    background: linear-gradient(135deg, rgba(56,189,248,0.9) 0%, rgba(14,165,233,0.7) 100%);
 }
 
 .hero-container {
@@ -386,7 +386,7 @@ ul { list-style: none; }
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary), #2563EB);
+    background: linear-gradient(135deg, var(--primary), #0EA5E9);
     color: var(--white);
     border-radius: 12px;
     margin-bottom: 20px;
@@ -555,7 +555,7 @@ ul { list-style: none; }
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary), #2563EB);
+    background: linear-gradient(135deg, var(--primary), #0EA5E9);
     color: var(--white);
     border-radius: 10px;
     flex-shrink: 0;
