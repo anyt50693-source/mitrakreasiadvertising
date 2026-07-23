@@ -1,0 +1,15 @@
+# Robots.txt for mitrakreasi.co.id
+# https://mitrakreasi.co.id
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mitrakreasi.co.id/sitemap.xml
+
+# Disallow admin pages (if any)
+Disallow: /admin/
+Disallow: /cgi-bin/
+
+# Crawl-delay
+Crawl-delay: 1
