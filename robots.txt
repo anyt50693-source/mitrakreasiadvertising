@@ -1,11 +1,11 @@
-# Robots.txt for mitrakreasi.co.id
-# https://mitrakreasi.co.id
+# Robots.txt for mitrakreasiindonesia.vercel.app
+# https://mitrakreasiindonesia.vercel.app
 
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://mitrakreasi.co.id/sitemap.xml
+Sitemap: https://mitrakreasiindonesia.vercel.app/sitemap.xml
 
 # Disallow admin pages (if any)
 Disallow: /admin/
