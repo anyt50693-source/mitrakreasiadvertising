@@ -1105,3 +1105,17 @@ img { max-width: 100%; height: auto; }
     .cookie-buttons { width: 100%; }
     .cookie-btn { flex: 1; }
 }
+
+/* WhatsApp Floating Button */
+.whatsapp-float {
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #25D366; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    transition: var(--transition); cursor: pointer;
+}
+.whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
+}
+.whatsapp-float svg { width: 28px; height: 28px; }
