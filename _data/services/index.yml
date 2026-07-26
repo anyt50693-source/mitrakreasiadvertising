@@ -1,0 +1,16 @@
+- title: "Booth Pameran"
+  description: "Custom booth untuk pameran, exhibition, dan event. Dari desain hingga instalasi."
+  icon: "booth.svg"
+  order: 1
+- title: "POP Display"
+  description: "Counter display, shelf display, dan point of purchase untuk retail Anda."
+  icon: "pop.svg"
+  order: 2
+- title: "Signage & Outdoor"
+  description: "Neon box, huruf timbul, pylon sign, dan berbagai jenis signage outdoor."
+  icon: "signage.svg"
+  order: 3
+- title: "Aluminium Composite Panel"
+  description: "Facade, interior cladding, dan column cover dengan material ACP berkualitas."
+  icon: "acp.svg"
+  order: 4

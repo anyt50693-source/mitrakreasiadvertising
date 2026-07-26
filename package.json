@@ -1,0 +1,7 @@
+{
+  "name": "mitra-kreasi-admin",
+  "private": true,
+  "dependencies": {
+    "formidable": "^3.5.1"
+  }
+}

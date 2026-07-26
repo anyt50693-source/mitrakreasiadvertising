@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Admin - Mitra Kreasi Indonesia</title>
+    <style>
+        :root { --accent: #F97316; --text: #1E293B; --bg: #F8FAFC; --border: #E2E8F0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', Arial, sans-serif; background: var(--bg); color: var(--text); }
+        
+        .login-page { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-box { background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 400px; }
+        .login-box h1 { font-size: 24px; margin-bottom: 8px; }
+        .login-box p { color: #64748B; margin-bottom: 24px; font-size: 14px; }
+        .login-box input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 16px; }
+        .login-box button { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .login-box button:hover { background: #EA580C; }
+        .login-error { color: #ef4444; font-size: 13px; margin-bottom: 12px; display: none; }
+
+        .admin-page { display: none; }
+        .admin-header { background: white; padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .admin-header h2 { font-size: 18px; }
+        .admin-header button { padding: 8px 16px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+        .admin-content { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+        
+        .tabs { display: flex; gap: 4px; margin-bottom: 24px; background: white; border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
+        .tab { padding: 10px 20px; border: none; background: none; cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 500; color: #64748B; }
+        .tab.active { background: var(--accent); color: white; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .upload-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; }
+        .upload-zone:hover { border-color: var(--accent); background: #FFF7ED; }
+        .upload-zone.dragover { border-color: var(--accent); background: #FFF7ED; }
+        .upload-zone h3 { font-size: 16px; margin-bottom: 8px; }
+        .upload-zone p { font-size: 13px; color: #64748B; }
+
+        .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .image-card { background: white; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; position: relative; }
+        .image-card img { width: 100%; height: 140px; object-fit: cover; }
+        .image-card .info { padding: 12px; }
+        .image-card .info p { font-size: 12px; color: #64748B; word-break: break-all; }
+        .image-card .delete-btn { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        
+        .upload-list { margin-top: 16px; }
+        .upload-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 8px; }
+        .upload-item img { width: 60px; height: 45px; object-fit: cover; border-radius: 6px; }
+        .upload-item .details { flex: 1; }
+        .upload-item .details p { font-size: 13px; font-weight: 500; }
+        .upload-item .details span { font-size: 11px; color: #64748B; }
+        .upload-item .progress { width: 100%; height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .upload-item .progress .bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+        .upload-item .status { font-size: 12px; font-weight: 600; }
+        .upload-item .status.ok { color: #22c55e; }
+        .upload-item .status.err { color: #ef4444; }
+
+        .success-toast { position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; box-shadow: 0 4px 12px rgba(34,197,94,0.3); display: none; z-index: 100; }
+    </style>
+</head>
+<body>
+    <!-- Login -->
+    <div class="login-page" id="loginPage">
+        <div class="login-box">
+            <h1>Mitra Kreasi Admin</h1>
+            <p>Masukkan password untuk mengelola konten website.</p>
+            <div class="login-error" id="loginError">Password salah</div>
+            <input type="password" id="password" placeholder="Password" onkeypress="if(event.key==='Enter')doLogin()">
+            <button onclick="doLogin()">Masuk</button>
+        </div>
+    </div>
+
+    <!-- Admin -->
+    <div class="admin-page" id="adminPage">
+        <div class="admin-header">
+            <h2>Mitra Kreasi Admin</h2>
+            <button onclick="doLogout()">Logout</button>
+        </div>
+        <div class="admin-content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('hero')">Hero</button>
+                <button class="tab" onclick="switchTab('portfolio')">Portofolio</button>
+                <button class="tab" onclick="switchTab('blog')">Blog</button>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="section active" id="section-hero">
+                <h3 style="margin-bottom:16px">Hero Slideshow (maks 3 gambar)</h3>
+                <div class="image-grid" id="heroGrid"></div>
+                <div class="upload-zone" id="heroZone" ondrop="handleDrop(event,'hero')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('heroInput').click()">
+                    <h3>Drag & drop gambar di sini</h3>
+                    <p>atau klik untuk memilih file. JPG/PNG, max 2MB.</p>
+                    <input type="file" id="heroInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files,'hero')">
+                </div>
+                <div class="upload-list" id="heroUploads"></div>
+            </div>
+
+            <!-- Portfolio Section -->
+            <div class="section" id="section-portfolio">
+                <h3 style="margin-bottom:16px">Portofolio</h3>
+                <div class="image-grid" id="portfolioGrid"></div>
+                <div class="upload-zone" id="portfolioZone" ondrop="handleDrop(event,'portfolio')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('portfolioInput').click()">
+                    <h3>Drag & drop gambar di sini</h3>
+                    <p>atau klik untuk memilih file. JPG/PNG, max 2MB.</p>
+                    <input type="file" id="portfolioInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files,'portfolio')">
+                </div>
+                <div class="upload-list" id="portfolioUploads"></div>
+            </div>
+
+            <!-- Blog Section -->
+            <div class="section" id="section-blog">
+                <h3 style="margin-bottom:16px">Blog</h3>
+                <div class="image-grid" id="blogGrid"></div>
+                <div class="upload-zone" id="blogZone" ondrop="handleDrop(event,'blog')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" onclick="document.getElementById('blogInput').click()">
+                    <h3>Drag & drop gambar di sini</h3>
+                    <p>atau klik untuk memilih file. JPG/PNG, max 2MB.</p>
+                    <input type="file" id="blogInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this.files,'blog')">
+                </div>
+                <div class="upload-list" id="blogUploads"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-toast" id="toast">Upload berhasil!</div>
+
+    <script>
+        var PASSWORD_HASH = '';
+        var TOKEN = '';
+
+        async function doLogin() {
+            var pw = document.getElementById('password').value;
+            var res = await fetch('/api/admin?pw=' + encodeURIComponent(pw));
+            var data = await res.json();
+            if (data.ok) {
+                TOKEN = data.token;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminPage').style.display = 'block';
+                loadImages();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        function doLogout() {
+            TOKEN = '';
+            document.getElementById('loginPage').style.display = '';
+            document.getElementById('adminPage').style.display = 'none';
+            document.getElementById('password').value = '';
+        }
+
+        function switchTab(name) {
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+            event.target.classList.add('active');
+            document.getElementById('section-' + name).classList.add('active');
+        }
+
+        function handleDragOver(e) { e.preventDefault(); e.currentTarget.classList.add('dragover'); }
+        function handleDragLeave(e) { e.currentTarget.classList.remove('dragover'); }
+        function handleDrop(e, folder) { e.preventDefault(); e.currentTarget.classList.remove('dragover'); handleFiles(e.dataTransfer.files, folder); }
+
+        async function handleFiles(files, folder) {
+            var list = document.getElementById(folder + 'Uploads');
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (file.size > 2 * 1024 * 1024) { alert(file.name + ' terlalu besar (max 2MB)'); continue; }
+                var id = 'upload-' + Date.now() + '-' + i;
+                var thumb = URL.createObjectURL(file);
+                list.innerHTML += '<div class="upload-item" id="' + id + '">' +
+                    '<img src="' + thumb + '">' +
+                    '<div class="details"><p>' + file.name + '</p><span>' + (file.size/1024).toFixed(0) + ' KB</span>' +
+                    '<div class="progress"><div class="bar" style="width:0%"></div></div></div>' +
+                    '<span class="status">...</span></div>';
+                await uploadFile(file, folder, id);
+            }
+            loadImages();
+        }
+
+        async function uploadFile(file, folder, id) {
+            var el = document.getElementById(id);
+            var bar = el.querySelector('.bar');
+            var status = el.querySelector('.status');
+            try {
+                var formData = new FormData();
+                formData.append('file', file);
+                formData.append('folder', folder);
+                formData.append('token', TOKEN);
+                bar.style.width = '50%';
+                var res = await fetch('/api/upload', { method: 'POST', body: formData });
+                var data = await res.json();
+                if (data.ok) {
+                    bar.style.width = '100%';
+                    status.textContent = 'OK';
+                    status.className = 'status ok';
+                    showToast();
+                } else {
+                    status.textContent = 'Gagal';
+                    status.className = 'status err';
+                }
+            } catch(e) {
+                status.textContent = 'Error';
+                status.className = 'status err';
+            }
+        }
+
+        async function loadImages() {
+            var folders = ['hero', 'portfolio', 'blog'];
+            for (var i = 0; i < folders.length; i++) {
+                var folder = folders[i];
+                var res = await fetch('/api/admin?folder=' + folder + '&token=' + TOKEN);
+                var data = await res.json();
+                var grid = document.getElementById(folder + 'Grid');
+                if (!data.ok || !data.files) { grid.innerHTML = '<p style="color:#64748B;font-size:14px">Belum ada gambar</p>'; continue; }
+                var html = '';
+                for (var j = 0; j < data.files.length; j++) {
+                    var f = data.files[j];
+                    html += '<div class="image-card">' +
+                        '<img src="' + f.url + '" loading="lazy">' +
+                        '<div class="info"><p>' + f.name + '</p></div>' +
+                        '<button class="delete-btn" onclick="deleteImage(\'' + folder + '\',\'' + f.name + '\')">&times;</button></div>';
+                }
+                grid.innerHTML = html || '<p style="color:#64748B;font-size:14px">Belum ada gambar</p>';
+            }
+        }
+
+        async function deleteImage(folder, name) {
+            if (!confirm('Hapus ' + name + '?')) return;
+            await fetch('/api/admin?folder=' + folder + '&delete=' + encodeURIComponent(name) + '&token=' + TOKEN, { method: 'DELETE' });
+            loadImages();
+        }
+
+        function showToast() {
+            var t = document.getElementById('toast');
+            t.style.display = 'block';
+            setTimeout(function() { t.style.display = 'none'; }, 2000);
+        }
+    </script>
+</body>
+</html>
