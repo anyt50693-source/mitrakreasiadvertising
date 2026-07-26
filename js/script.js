@@ -46,10 +46,26 @@ document.addEventListener('DOMContentLoaded', () => {
         ticking = false;
     }
 
+    const scrollTopBtn = document.getElementById('scrollTop');
+
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(updateNav);
             ticking = true;
         }
+
+        if (scrollTopBtn) {
+            if (scrollY > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
     }, { passive: true });
+
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });
