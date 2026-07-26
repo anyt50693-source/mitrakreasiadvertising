@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Hamburger Menu
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
 
@@ -17,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Hero Slideshow
     const slides = document.querySelectorAll('.hero-slide');
     if (slides.length > 1) {
         let current = 0;
@@ -28,11 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
-    // Active nav link on scroll
     const sections = document.querySelectorAll('section[id]');
     const navLinksAll = document.querySelectorAll('.nav-link');
+    let ticking = false;
 
-    window.addEventListener('scroll', () => {
+    function updateNav() {
         let current = '';
         sections.forEach(section => {
             const top = section.offsetTop - 150;
@@ -45,5 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.add('active');
             }
         });
-    });
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(updateNav);
+            ticking = true;
+        }
+    }, { passive: true });
 });

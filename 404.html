@@ -6,41 +6,33 @@
     <title>404 - Halaman Tidak Ditemukan | Mitra Kreasi Indonesia</title>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         .error-page {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--primary);
+            background: #F8FAFC;
             text-align: center;
             padding: 24px;
         }
         .error-content { max-width: 500px; }
         .error-code {
-            font-family: var(--font-display);
             font-size: clamp(100px, 20vw, 200px);
             font-weight: 900;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #F97316;
             line-height: 1;
             margin-bottom: 16px;
         }
         .error-title {
-            font-family: var(--font-display);
             font-size: 28px;
             font-weight: 700;
-            color: var(--text);
+            color: #1E293B;
             margin-bottom: 16px;
         }
         .error-desc {
             font-size: 16px;
-            color: var(--text-muted);
+            color: #64748B;
             margin-bottom: 32px;
             line-height: 1.7;
         }
@@ -55,15 +47,16 @@
             align-items: center;
             gap: 8px;
             padding: 14px 28px;
-            background: var(--accent);
-            color: var(--text-white);
-            border-radius: var(--radius-md);
+            background: #F97316;
+            color: #FFFFFF;
+            border-radius: 12px;
             font-weight: 600;
+            font-size: 14px;
             text-decoration: none;
-            transition: var(--transition);
+            transition: all 0.2s;
         }
         .error-home:hover {
-            background: var(--accent-hover);
+            background: #EA580C;
             transform: translateY(-2px);
         }
         .error-back {
@@ -72,17 +65,17 @@
             gap: 8px;
             padding: 14px 28px;
             background: transparent;
-            color: var(--text-muted);
+            color: #64748B;
             border: 2px solid rgba(0,0,0,0.12);
-            border-radius: var(--radius-md);
+            border-radius: 12px;
             font-weight: 600;
+            font-size: 14px;
             text-decoration: none;
-            transition: var(--transition);
+            transition: all 0.2s;
         }
         .error-back:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-glass);
+            border-color: #F97316;
+            color: #F97316;
         }
     </style>
 </head>

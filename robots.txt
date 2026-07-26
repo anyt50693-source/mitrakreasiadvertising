@@ -1,15 +1,5 @@
 # Robots.txt for mitrakreasiindonesia.vercel.app
-# https://mitrakreasiindonesia.vercel.app
-
 User-agent: *
 Allow: /
 
-# Sitemap
 Sitemap: https://mitrakreasiindonesia.vercel.app/sitemap.xml
-
-# Disallow admin pages (if any)
-Disallow: /admin/
-Disallow: /cgi-bin/
-
-# Crawl-delay
-Crawl-delay: 1
